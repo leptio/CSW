@@ -14,7 +14,7 @@ public class display extends Canvas implements Runnable {
 
     public Thread thread;
     public JFrame frame;
-    public static String title = "ATW";
+    public static String title = "CSW";
     public static final int WIDTH = 800;
     public static final int LENGTH = 800;
     public static boolean running = false;
