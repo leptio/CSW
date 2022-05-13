@@ -22,7 +22,8 @@ public class display extends Canvas implements Runnable {
     Tetrahedron tetra2;
     Tetrahedron tetra3;
     Interpolate rainbow;
-
+    Interpolate rainbow2;
+    Interpolate rainbow3;
     public display(){
         frame = new JFrame();
 
@@ -41,6 +42,8 @@ public class display extends Canvas implements Runnable {
 
     private void init(){
         this.rainbow = new Interpolate(1);
+        this.rainbow2 = new Interpolate(5);
+        this.rainbow3 = new Interpolate(10);
         this.tetra = new Cube(300,150,200,300).getTetra(Color.GREEN);
         this.tetra2 = new Cube(-300,-150,-200,300).getTetra(Color.GREEN);
         this.tetra3 = new Cube(300,-75,-25,300).getTetra(Color.GREEN);
@@ -62,6 +65,8 @@ public class display extends Canvas implements Runnable {
 
 
         this.tetra.setPolygonColor(rainbow.increase());
+        this.tetra2.setPolygonColor(rainbow2.increase());
+        this.tetra3.setPolygonColor(rainbow3.increase());
         this.tetra.render(g);
         this.tetra2.render(g);
         this.tetra3.render(g);
