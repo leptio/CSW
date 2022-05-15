@@ -30,6 +30,8 @@ public class pointConverter {
         double distance =  sqrt(x3d*x3d + y3d*y3d);
         //atan is reverse operation of tangent > atan(tan(30)) would produce 30
         double theta = Math.atan2(y3d, x3d);
+
+        //cam is at 0,0,-15 (z being depth)
         double depth2=15-depth;
 
         //try to not move anything too far behind the camera
@@ -39,28 +41,5 @@ public class pointConverter {
         newVal[0] = distance * Math.cos(theta);
         newVal[1] = distance * Math.sin(theta);
         return(newVal);
-    }
-    public static void rotateAxisX(CPoint p, boolean CW, double degrees) {
-        double radius = Math.sqrt(p.y * p.y + p.z * p.z);
-        double theta = Math.atan2(p.z, p.y);
-        theta += 2 * Math.PI / 360 * degrees * (CW?-1:1);
-        p.y = radius * Math.cos(theta);
-        p.z = radius * Math.sin(theta);
-    }
-
-    public static void rotateAxisY(CPoint p, boolean CW, double degrees) {
-        double radius = Math.sqrt(p.x * p.x + p.z * p.z);
-        double theta = Math.atan2(p.x, p.z);
-        theta += 2 * Math.PI / 360 * degrees * (CW?-1:1);
-        p.z = radius * Math.cos(theta);
-        p.x = radius * Math.sin(theta);
-    }
-
-    public static void rotateAxisZ(CPoint p, boolean CW, double degrees) {
-        double radius = Math.sqrt(p.x * p.x + p.y * p.y);
-        double theta = Math.atan2(p.y, p.x);
-        theta += 2 * Math.PI / 360 * degrees * (CW?-1:1);
-        p.x = radius * Math.cos(theta);
-        p.y = radius * Math.sin(theta);
     }
 }

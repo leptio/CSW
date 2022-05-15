@@ -71,7 +71,7 @@ public class display extends Canvas implements Runnable {
         this.tetra3 = cube3.getTetra(Color.GREEN);
         //first four parameters are to edit the current value of that parameter in the cube object by that amount
         //last three are to move the cube x, y, and z respectively
-        this.cube.refresh(0,0,0,0,0,0,1);
+        this.cube.refresh(0,0,0,0,0,0,0);
         this.tetra.setPolygonColor(rainbow.increase());
         this.tetra2.setPolygonColor(rainbow2.increase());
         this.tetra3.setPolygonColor(rainbow3.increase());
