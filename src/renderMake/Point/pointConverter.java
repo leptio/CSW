@@ -31,7 +31,9 @@ public class pointConverter {
         //atan is reverse operation of tangent > atan(tan(30)) would produce 30
         double theta = Math.atan2(y3d, x3d);
         double depth2=15-depth;
-        double localScale = Math.abs(1400/(depth2+1400));
+
+        //try to not move anything too far behind the camera
+        double localScale = 1200/(depth2+1200);
         distance *= localScale;
         double[] newVal = new double[2];
         newVal[0] = distance * Math.cos(theta);
