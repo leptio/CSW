@@ -18,6 +18,9 @@ public class display extends Canvas implements Runnable {
     public static final int WIDTH = 800;
     public static final int LENGTH = 800;
     public static boolean running = false;
+    Cube cube;
+    Cube cube2;
+    Cube cube3;
     Tetrahedron tetra;
     Tetrahedron tetra2;
     Tetrahedron tetra3;
@@ -44,9 +47,10 @@ public class display extends Canvas implements Runnable {
         this.rainbow = new Interpolate(1);
         this.rainbow2 = new Interpolate(5);
         this.rainbow3 = new Interpolate(10);
-        this.tetra = new Cube(300,150,200,300).getTetra(Color.GREEN);
-        this.tetra2 = new Cube(-300,-150,-200,300).getTetra(Color.GREEN);
-        this.tetra3 = new Cube(300,-75,-25,300).getTetra(Color.GREEN);
+        this.cube = new Cube(300,150,200,300,0,0,0);
+        this.cube2 = new Cube(-300,-150,-200,300,0,0,0);
+        this.cube3 = new Cube(300,-75,-25,300,0,0,0);
+
     }
 
 
@@ -62,8 +66,12 @@ public class display extends Canvas implements Runnable {
         g.setColor(new Color(0,0,0));
         g.fillRect(0,0,WIDTH,LENGTH);
         //x is the frontal 3d axis. if you shift 90 degrees forward and up, looking down would be a regular xy plane
-
-
+        this.tetra = cube.getTetra(Color.GREEN);
+        this.tetra2 = cube2.getTetra(Color.GREEN);
+        this.tetra3 = cube3.getTetra(Color.GREEN);
+        //first four parameters are to edit the current value of that parameter in the cube object by that amount
+        //last three are to move the cube x, y, and z respectively
+        this.cube.refresh(0,0,0,0,0,0,0);
         this.tetra.setPolygonColor(rainbow.increase());
         this.tetra2.setPolygonColor(rainbow2.increase());
         this.tetra3.setPolygonColor(rainbow3.increase());

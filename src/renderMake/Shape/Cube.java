@@ -10,17 +10,13 @@ public class Cube {
     //right/left shift
     int z;
 
-    //side
+    int s;
     int y;
-
-    //height
     int h;
-
-    //up/down shift
-    int k;
-
-    //right/left shift
-    int g;
+    int m;
+    int d1;
+    int d2;
+    int d3;
 
     CPoint p1;
     CPoint p2;
@@ -44,23 +40,65 @@ public class Cube {
     //top face
     CPolygon c6;
 
-    public Cube(int s, int m, int y, int h){
+    public Cube(int s, int m, int y, int h, int b3, int b2, int b1){
         //s = size
-        //m = right/left shift
         //y=side
         //h=height
         //k=up/down shift
         //g = right/left shift
+        this.s=s;
+        this.m=m;
+        this.y=y;
+        this.h=h;
+        this.d1=b1;
+        this.d2=b2;
+        this.d3=b3;
         d=s/2;
         z=d+m;
-        p1 = new CPoint(y, z, -h);
-        p2 = new CPoint(y, y, -h);
-        p3 = new CPoint(y, y, h);
-        p4 = new CPoint(y, z, h);
-        p5 = new CPoint(z, z, -h);
-        p6 = new CPoint(z, y, -h);
-        p7 = new CPoint(z, y, h);
-        p8 = new CPoint(z, z, h);
+        p1 = new CPoint(y+d1, z+d2, -h+d3);
+        p2 = new CPoint(y+d1, y+d2, -h+d3);
+        p3 = new CPoint(y+d1, y+d2, h+d3);
+        p4 = new CPoint(y+d1, z+d2, h+d3);
+        p5 = new CPoint(z+d1, z+d2, -h+d3);
+        p6 = new CPoint(z+d1, y+d2, -h+d3);
+        p7 = new CPoint(z+d1, y+d2, h+d3);
+        p8 = new CPoint(z+d1, z+d2, h+d3);
+        //front face
+        c1 = new CPolygon(Color.WHITE, p1, p2, p3, p4);
+
+        //back face
+        c2 = new CPolygon(Color.BLACK, p5, p6, p7, p8);
+
+        //bottom face
+        c3 = new CPolygon(Color.GREEN, p1, p2, p6, p5);
+
+        //left face
+        c4 = new CPolygon(Color.BLUE, p1, p5, p8, p4);
+
+        //right face
+        c5 = new CPolygon(Color.RED, p2, p6, p7, p3);
+
+        //top face
+        c6 = new CPolygon(Color.ORANGE, p4, p3, p7, p8);
+    }
+    public void refresh(int a,int b,int c,int e, int b2, int b3, int b1){
+        this.s=this.s+a;
+        this.m=this.m+b;
+        this.y=this.y+c;
+        this.h=this.h+e;
+        this.d1=this.d1+b1;
+        this.d2=this.d2+b2;
+        this.d3=this.d3+b3;
+        this.d=s/2;
+        this.z=this.d+this.m;
+        p1 = new CPoint(y+d1, z+d2, -h+d3);
+        p2 = new CPoint(y+d1, y+d2, -h+d3);
+        p3 = new CPoint(y+d1, y+d2, h+d3);
+        p4 = new CPoint(y+d1, z+d2, h+d3);
+        p5 = new CPoint(z+d1, z+d2, -h+d3);
+        p6 = new CPoint(z+d1, y+d2, -h+d3);
+        p7 = new CPoint(z+d1, y+d2, h+d3);
+        p8 = new CPoint(z+d1, z+d2, h+d3);
 
         //front face
         c1 = new CPolygon(Color.WHITE, p1, p2, p3, p4);
