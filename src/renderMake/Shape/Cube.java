@@ -3,6 +3,7 @@ package renderMake.Shape;
 import renderMake.Point.CPoint;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Cube {
     int d;
@@ -99,7 +100,6 @@ public class Cube {
         p6 = new CPoint(z+d1, y+d2, -h+d3);
         p7 = new CPoint(z+d1, y+d2, h+d3);
         p8 = new CPoint(z+d1, z+d2, h+d3);
-
         //front face
         c1 = new CPolygon(Color.WHITE, p1, p2, p3, p4);
 
@@ -120,5 +120,28 @@ public class Cube {
     }
     public Tetrahedron getTetra(Color color){
         return(new Tetrahedron(color, c1, c2, c3, c4, c5, c6));
+    }
+    public double getLocationZ(){
+        ArrayList<Double> points = new ArrayList<Double>();
+        points.add(p1.x);
+        points.add(p2.x);
+        points.add(p3.x);
+        points.add(p4.x);
+        points.add(p5.x);
+        points.add(p6.x);
+        points.add(p7.x);
+        points.add(p8.x);
+        for(int i = 0; i < points.size(); i++){
+            for(int j=1; j < (8-i); j++){
+                if(points.get(j-1) > points.get(j)){
+                    //swap elements
+                    double temp = points.get(j-1);
+                    points.set(j-1, points.get(j));
+                    points.set(j, temp);
+                }
+
+            }
+        }
+        return points.get(7);
     }
 }

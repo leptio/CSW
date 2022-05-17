@@ -50,7 +50,6 @@ public class display extends Canvas implements Runnable {
         this.cube = new Cube(300,150,200,300,0,0,0);
         this.cube2 = new Cube(-300,-150,-200,300,0,0,0);
         this.cube3 = new Cube(300,-75,-25,300,0,0,0);
-
     }
 
 
@@ -66,18 +65,33 @@ public class display extends Canvas implements Runnable {
         g.setColor(new Color(0,0,0));
         g.fillRect(0,0,WIDTH,LENGTH);
         //x is the frontal 3d axis. if you shift 90 degrees forward and up, looking down would be a regular xy plane
-        this.tetra = cube.getTetra(Color.GREEN);
+
         this.tetra2 = cube2.getTetra(Color.GREEN);
         this.tetra3 = cube3.getTetra(Color.GREEN);
         //first four parameters are to edit the current value of that parameter in the cube object by that amount
         //last three are to move the cube x, y, and z respectively
-        this.cube.refresh(0,0,0,0,0,0,0);
-        this.tetra.setPolygonColor(rainbow.increase());
+        if(this.cube!=null){
+
+            this.tetra = cube.getTetra(Color.GREEN);
+            this.cube.refresh(0, 0, 0, 0, 0, 0, 1);
+            this.tetra.render(g);
+            this.tetra.setPolygonColor(rainbow.increase());
+            System.out.println(cube.getLocationZ());
+
+            //mark cube as null to make it eligible for garbage collection
+            if(cube.getLocationZ()>900){
+                cube = null;
+            }
+        }
+
+
+
         this.tetra2.setPolygonColor(rainbow2.increase());
         this.tetra3.setPolygonColor(rainbow3.increase());
-        this.tetra.render(g);
+
         this.tetra2.render(g);
         this.tetra3.render(g);
+
         g.dispose();
         bs.show();
     }
