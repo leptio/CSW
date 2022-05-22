@@ -41,6 +41,7 @@ public class Cube {
     //top face
     CPolygon c6;
 
+    public Tetrahedron tetra;
     public Cube(int s, int m, int y, int h, int b3, int b2, int b1){
         //s = size
         //y=side
@@ -81,6 +82,7 @@ public class Cube {
 
         //top face
         c6 = new CPolygon(Color.ORANGE, p4, p3, p7, p8);
+        this.getTetra(Color.GREEN);
     }
     public void refresh(int a,int b,int c,int e, int b2, int b3, int b1){
         this.s=this.s+a;
@@ -119,7 +121,11 @@ public class Cube {
         c6 = new CPolygon(Color.ORANGE, p4, p3, p7, p8);
     }
     public Tetrahedron getTetra(Color color){
-        return(new Tetrahedron(color, c1, c2, c3, c4, c5, c6));
+        this.tetra = new Tetrahedron(color, c1, c2, c3, c4, c5, c6);
+        return(tetra);
+    }
+    public void updateTetra(Color color){
+        this.tetra = new Tetrahedron(color, c1, c2, c3, c4, c5, c6);
     }
     public double getLocationZ(){
         ArrayList<Double> points = new ArrayList<Double>();

@@ -34,7 +34,7 @@ public class pointConverter {
         //cam is at 0,0,-15 (z being depth)
         double depth2=15-depth;
 
-        //try to not move anything too far behind the camera
+
         double localScale = 1200/(depth2+1200);
         distance *= localScale;
         double[] newVal = new double[2];

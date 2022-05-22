@@ -2,6 +2,7 @@ package renderMake;
 
 import renderMake.Color.Interpolate;
 import renderMake.Point.CPoint;
+import renderMake.Point.Empty;
 import renderMake.Shape.CPolygon;
 import renderMake.Shape.Cube;
 import renderMake.Shape.Tetrahedron;
@@ -9,24 +10,18 @@ import renderMake.Shape.Tetrahedron;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.lang.ref.Cleaner;
+import java.util.ArrayList;
 
 public class display extends Canvas implements Runnable {
-
+    ArrayList<Cube> cubeArrayList = new ArrayList<Cube>();
     public Thread thread;
     public JFrame frame;
     public static String title = "CSW";
     public static final int WIDTH = 800;
     public static final int LENGTH = 800;
     public static boolean running = false;
-    Cube cube;
-    Cube cube2;
-    Cube cube3;
-    Tetrahedron tetra;
-    Tetrahedron tetra2;
-    Tetrahedron tetra3;
     Interpolate rainbow;
-    Interpolate rainbow2;
-    Interpolate rainbow3;
     public display(){
         frame = new JFrame();
 
@@ -45,19 +40,13 @@ public class display extends Canvas implements Runnable {
 
     private void init(){
         this.rainbow = new Interpolate(1);
-        this.rainbow2 = new Interpolate(5);
-        this.rainbow3 = new Interpolate(10);
-        this.cube = new Cube(300,150,200,300,0,0,0);
-        this.cube2 = new Cube(-300,-150,-200,300,0,0,0);
-        this.cube3 = new Cube(300,-75,-25,300,0,0,0);
     }
 
-
+    Cleaner cleaner = Cleaner.create();
     private void render() {
-
         BufferStrategy bs = getBufferStrategy();
         if (bs==null){
-            createBufferStrategy(3);
+            createBufferStrategy(4);
             return;
         }
 
@@ -65,62 +54,76 @@ public class display extends Canvas implements Runnable {
         g.setColor(new Color(0,0,0));
         g.fillRect(0,0,WIDTH,LENGTH);
         //x is the frontal 3d axis. if you shift 90 degrees forward and up, looking down would be a regular xy plane
-
-        this.tetra2 = cube2.getTetra(Color.GREEN);
-        this.tetra3 = cube3.getTetra(Color.GREEN);
+        Color color = rainbow.increase();
         //first four parameters are to edit the current value of that parameter in the cube object by that amount
         //last three are to move the cube x, y, and z respectively
-        if(this.cube!=null){
-
-            this.tetra = cube.getTetra(Color.GREEN);
-            this.cube.refresh(0, 0, 0, 0, 0, 0, 1);
-            this.tetra.render(g);
-            this.tetra.setPolygonColor(rainbow.increase());
-            System.out.println(cube.getLocationZ());
-
-            //mark cube as null to make it eligible for garbage collection
-            if(cube.getLocationZ()>900){
-                cube = null;
+        Empty empty = new Empty();
+        for(int i=0;i<cubeArrayList.size();i++) {
+            Cube tCube = cubeArrayList.get(i);
+            Tetrahedron tetra;
+            if (tCube != null) {
+                tCube.updateTetra(color);
+                tetra = tCube.tetra;
+                tCube.refresh(0, 0, 0, 0, 0, 0, 1);
+                tetra.render(g);
+                if(tCube.getLocationZ()>1100){
+                    System.out.println(tCube.getLocationZ());
+                }
+                //mark cube as null to make it eligible for garbage collection
+                if (tCube.getLocationZ() > 1200) {
+                    //using "this" as runnable causes it to rerun
+                    cleaner.register(tCube, empty);
+                    cubeArrayList.remove(i);
+                    System.gc();
+                }
             }
         }
 
 
-
-        this.tetra2.setPolygonColor(rainbow2.increase());
-        this.tetra3.setPolygonColor(rainbow3.increase());
-
-        this.tetra2.render(g);
-        this.tetra3.render(g);
-
         g.dispose();
         bs.show();
     }
-
+    int timer = 0;
     private void update(){
-
+        timer++;
+        if(timer>120){
+            Cube newCube;
+            Cube newCube2;
+            newCube = new Cube(300,150,200,300,0,-500,-500);
+            newCube2 = new Cube(300,150,200,300,0,0,-500);
+            newCube.getTetra(Color.GREEN);
+            newCube2.getTetra(Color.GREEN);
+            cubeArrayList.add(newCube);
+            cubeArrayList.add(newCube2);
+            timer = 0;
+        }
     }
     @Override
     public void run() {
         long lastTime = System.nanoTime();
         long currentTime = System.currentTimeMillis();
-        final double ns = 1000000000 / 60;
+        final double ns = 16666666.6667;
         double delta = 0;
         int frames = 0;
         init();
         while(running){
             long now = System.nanoTime();
-            delta += (now-lastTime) / ns;
+            delta += (now - lastTime) / ns;
+            //System.out.println((now-lastTime)/ns);
+            //System.out.println(now);
+            //System.out.println(lastTime);
             lastTime = now;
-            while(delta>=1){
+            //System.out.println(frames);
+            while (delta >= 1) {
                 update();
-                delta--;
+                delta = 0;
                 render();
                 frames++;
             }
 
 
             if(System.currentTimeMillis()-currentTime > 1000){
-                currentTime+=1000;
+                currentTime=System.currentTimeMillis();
                 frame.setTitle(title + " / " + frames + " fps");
                 frames=0;
             }
@@ -144,4 +147,6 @@ public class display extends Canvas implements Runnable {
 
         thisDisplay.start();
     }
+
+    int tick;
 }
