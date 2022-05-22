@@ -66,9 +66,6 @@ public class display extends Canvas implements Runnable {
                 tetra = tCube.tetra;
                 tCube.refresh(0, 0, 0, 0, 0, 0, 1);
                 tetra.render(g);
-                if(tCube.getLocationZ()>1100){
-                    System.out.println(tCube.getLocationZ());
-                }
                 //mark cube as null to make it eligible for garbage collection
                 if (tCube.getLocationZ() > 1200) {
                     //using "this" as runnable causes it to rerun
