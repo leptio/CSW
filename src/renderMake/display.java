@@ -64,7 +64,7 @@ public class display extends Canvas implements Runnable {
             if (tCube != null) {
                 tCube.updateTetra(color);
                 tetra = tCube.tetra;
-                tCube.refresh(0, 0, 0, 0, 0, 0, 1);
+                tCube.refresh(0, 0, 0, 0, 0, 0, 5);
                 tetra.render(g);
                 //mark cube as null to make it eligible for garbage collection
                 if (tCube.getLocationZ() > 1200) {
@@ -86,8 +86,8 @@ public class display extends Canvas implements Runnable {
         if(timer>120){
             Cube newCube;
             Cube newCube2;
-            newCube = new Cube(300,150,200,300,0,-500,-500);
-            newCube2 = new Cube(300,150,200,300,0,0,-500);
+            newCube = new Cube(300,150,200,300,0,-500,-40000);
+            newCube2 = new Cube(300,150,200,300,0,0,-40000);
             newCube.getTetra(Color.GREEN);
             newCube2.getTetra(Color.GREEN);
             cubeArrayList.add(newCube);
